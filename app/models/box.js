@@ -40,7 +40,34 @@ var BoxSchema = new Schema({
     trim: true,
     index: {
       unique: true
-    }
+    },
+		validate:{
+			isAsync: true,
+			validator: function (title, fn) {
+				var Box = mongoose.model('Box');
+
+				if (this.isNew || this.isModified('title')) {
+					Box.find({
+						title: title
+					}).exec(function (err, boxes) {
+						fn(!err && boxes.length === 0);
+					});
+				} else fn(true);
+			}, 
+			message: 'Box name already exists'
+		}, 
+		validate:{
+			isAsync: true,
+			validator: function (title, fn) {
+				if (this.isNew || this.isModified('title')) {
+						fn(utils.validateTitle(title));
+				} else fn(true);
+			}, 
+			message: 'Name can only contain letters, numbers, space and underscore.' 
+		}, 		
+		
+		
+		
   },
   link: {
     type: String,
@@ -83,25 +110,6 @@ var BoxSchema = new Schema({
  */
 
 BoxSchema.path('title').required(true, 'Box title cannot be blank');
-
-
-BoxSchema.path('title').validate(function (title, fn) {
-  var Box = mongoose.model('Box');
-
-  if (this.isNew || this.isModified('title')) {
-    Box.find({
-      title: title
-    }).exec(function (err, boxes) {
-      fn(!err && boxes.length === 0);
-    });
-  } else fn(true);
-}, 'Box name already exists');
-
-BoxSchema.path('title').validate(function (title, fn) {
-  if (this.isNew || this.isModified('title')) {
-      fn(utils.validateTitle(title));
-  } else fn(true);
-}, 'Name can only contain letters, numbers, space and underscore.');
 
 
 BoxSchema.pre('remove', function (next) {

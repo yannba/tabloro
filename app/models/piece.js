@@ -41,7 +41,31 @@ var PieceSchema = new Schema({
     trim: true,
     index: {
       unique: true
-    }
+    },
+    validate:{
+		isAsync: true,
+		validator: function (title, fn) {
+				var Piece = mongoose.model('Piece');
+
+				if (this.isNew || this.isModified('title')) {
+					Piece.find({
+						title: title
+					}).exec(function (err, pieces) {
+						fn(!err && pieces.length === 0);
+					});
+				} else fn(true);
+			}, 
+		message: 'Piece name already exists'
+		},
+    validate:{
+		isAsync: true,
+		validator: function (title, fn) {
+				if (this.isNew || this.isModified('title')) {
+						fn(utils.validateTitle(title));
+				} else fn(true);
+			}, 
+		message: 'Name can only contain letters, numbers, space and underscore.'
+		}
   },
   description: {
     type: String
@@ -122,28 +146,6 @@ var PieceSchema = new Schema({
  */
 
 PieceSchema.path('title').required(true, 'Piece title cannot be blank');
-
-
-PieceSchema.path('title').validate(function (title, fn) {
-  var Piece = mongoose.model('Piece');
-
-  if (this.isNew || this.isModified('title')) {
-    Piece.find({
-      title: title
-    }).exec(function (err, pieces) {
-      fn(!err && pieces.length === 0);
-    });
-  } else fn(true);
-}, 'Piece name already exists');
-
-
-
-PieceSchema.path('title').validate(function (title, fn) {
-  if (this.isNew || this.isModified('title')) {
-      fn(utils.validateTitle(title));
-  } else fn(true);
-}, 'Name can only contain letters, numbers, space and underscore.');
-
 
 PieceSchema.pre('save', function (next) {
 
