@@ -22,7 +22,7 @@
           <p>Tags &nbsp;</p>
           {% for tag in article.tags.split(',') %}
             <i class="muted fa fa-tag"></i>&nbsp;
-            <a href="{{ '/tags/' + tag }}" class="tag">{{ tag }}</a>
+            <a href="{{ '/tags/' + tag }}" class="tag">{{ tag.toString() }}</a>
             &nbsp;&nbsp;
           {% endfor %}
         {% endif %}

@@ -28,7 +28,7 @@ var getTags = function (tags) {
  */
 
 var setTags = function (tags) {
-  return tags.split(',');
+  return tags.toString().split(',');
 };
 
 /**
@@ -161,7 +161,7 @@ PieceSchema.pre('save', function (next) {
 
 
 PieceSchema.pre('remove', function (next) {
-  var imager = new Imager(imagerConfig, 'S3');
+  var imager = new Imager(imagerConfig, 'Local');
   var files = this.image.files;
 
   // if there are files associated with the item, remove from the cloud too
@@ -191,7 +191,7 @@ PieceSchema.methods = {
   uploadAndSave: function (images, cb) {
     if (!images || !images.length) return this.save(cb);
 
-    var imager = new Imager(imagerConfig, 'S3');
+    var imager = new Imager(imagerConfig, 'Local');
     var self = this;
 
     this.validate(function (err) {

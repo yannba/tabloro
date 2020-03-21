@@ -23,7 +23,7 @@ var getTags = function (tags) {
  */
 
 var setTags = function (tags) {
-  return tags.split(',');
+  return tags.toString().split(',');
 };
 
 /**

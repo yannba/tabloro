@@ -185,7 +185,7 @@
             <span class="pull-right">
               {% for tag in piece.tags.split(',') %}
                 <i class="muted fa fa-tag"></i>&nbsp;
-                <a href="{{ '/tags/' + tag }}" class="tag">{{ tag }}</a>
+                <a href="{{ '/tags/' + tag }}" class="tag">{{ tag.toString() }}</a>
                 &nbsp;&nbsp;
               {% endfor %}
             </span>
