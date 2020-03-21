@@ -156,7 +156,7 @@ BoxSchema.methods = {
           return cb(err);
         }
         if (files.length) {
-          self.image = { cdnUri : cdnUri, files : files };
+          self.image = { cdnUri : '/userdat', files : files };
         }
         self.save(cb);
       }, 'box');

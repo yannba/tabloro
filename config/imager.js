@@ -2,6 +2,7 @@
 /**
  * Expose
  */
+var config = require('config');
 
 module.exports = {
   variants: {
@@ -38,7 +39,7 @@ module.exports = {
 
   storage: {
     Local: {
-      path: '/tmp',
+      path: config.root + '/public/userdat',
       mode: 0777
     },
     S3: {

@@ -205,7 +205,7 @@ exports.add = function (req, res){
   // make sure no one changes the user
   delete req.body.user;
   box = extend(box, req.body);
-  var ref = req.header('Referer');
+  var ref = req.header('Referer')||' ';
   var refPage = ref.match(/\?page=(\d+)/) && ref.match(/\?page=(\d+)/)[1];
   var pageKeeper = refPage ? '?page=' + refPage : '';
 
