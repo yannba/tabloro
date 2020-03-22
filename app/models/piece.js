@@ -43,29 +43,29 @@ var PieceSchema = new Schema({
       unique: true
     },
     validate:{
-		isAsync: true,
-		validator: function (title, fn) {
-				var Piece = mongoose.model('Piece');
+    isAsync: true,
+    validator: function (title, fn) {
+        var Piece = mongoose.model('Piece');
 
-				if (this.isNew || this.isModified('title')) {
-					Piece.find({
-						title: title
-					}).exec(function (err, pieces) {
-						fn(!err && pieces.length === 0);
-					});
-				} else fn(true);
-			}, 
-		message: 'Piece name already exists'
-		},
+        if (this.isNew || this.isModified('title')) {
+          Piece.find({
+            title: title
+          }).exec(function (err, pieces) {
+            fn(!err && pieces.length === 0);
+          });
+        } else fn(true);
+      }, 
+    message: 'Piece name already exists'
+    },
     validate:{
-		isAsync: true,
-		validator: function (title, fn) {
-				if (this.isNew || this.isModified('title')) {
-						fn(utils.validateTitle(title));
-				} else fn(true);
-			}, 
-		message: 'Name can only contain letters, numbers, space and underscore.'
-		}
+    isAsync: true,
+    validator: function (title, fn) {
+        if (this.isNew || this.isModified('title')) {
+            fn(utils.validateTitle(title));
+        } else fn(true);
+      }, 
+    message: 'Name can only contain letters, numbers, space and underscore.'
+    }
   },
   description: {
     type: String

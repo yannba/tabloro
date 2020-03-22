@@ -31,7 +31,36 @@ var setTags = function (tags) {
  */
 
 var TableSchema = new Schema({
-  title: {type : String, trim : true, index: { unique: true } },
+  title: {
+    type : String, 
+    trim : true, 
+    index: { unique: true },
+    validate:{
+      isAsync: true,
+      validator: function (title, fn) {
+        var Table = mongoose.model('Table');
+
+        if (this.isNew || this.isModified('title')) {
+          Table.find({ title: title }).exec(function (err, tables) {
+            fn(!err && tables.length === 0);
+          });
+        } else fn(true);
+      }, 
+      message: 'Table name already exists' 
+    },
+    validate:{
+      isAsync: true,
+      validator: function (title, fn) {
+          if (this.isNew || this.isModified('title')) {
+              fn(utils.validateTitle(title));
+          } else fn(true);
+        }, 
+        message: 'Name can only contain letters, numbers, space and underscore.'
+      }
+    
+    
+    
+  },
   phone: {type : String, trim : true },
   skype: {type : String},
   rules: {type : String},
@@ -53,24 +82,6 @@ var TableSchema = new Schema({
  */
 
 TableSchema.path('title').required(true, 'Table title cannot be blank');
-
-
-TableSchema.path('title').validate(function (title, fn) {
-  var Table = mongoose.model('Table');
-
-  if (this.isNew || this.isModified('title')) {
-    Table.find({ title: title }).exec(function (err, tables) {
-      fn(!err && tables.length === 0);
-    });
-  } else fn(true);
-}, 'Table name already exists');
-
-
-TableSchema.path('title').validate(function (title, fn) {
-  if (this.isNew || this.isModified('title')) {
-      fn(utils.validateTitle(title));
-  } else fn(true);
-}, 'Name can only contain letters, numbers, space and underscore.');
 
 
 /**

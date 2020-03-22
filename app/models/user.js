@@ -22,7 +22,23 @@ var oAuthTypes = [
 
 var UserSchema = new Schema({
   name: { type: String, default: '' },
-  email: { type: String, default: '' },
+  email: { type: String, default: '',
+    validate:{
+      isAsync: true,
+      validator: function (email, fn) {
+        var User = mongoose.model('User');
+        if (this.skipValidation()) fn(true);
+
+        // Check only when it is a new user or when email field is modified
+        if (this.isNew || this.isModified('email')) {
+          User.find({ email: email }).exec(function (err, users) {
+            fn(!err && users.length === 0);
+          });
+        } else fn(true);
+      },
+      message: 'Email already exists'
+    }    
+  },
   username: { type: String, default: '' },
   selected_cursor: { type: String, default: '1'},
   skype: { type: String},
@@ -72,17 +88,6 @@ UserSchema.path('email').validate(function (email) {
   return email.length;
 }, 'Email cannot be blank');
 
-UserSchema.path('email').validate(function (email, fn) {
-  var User = mongoose.model('User');
-  if (this.skipValidation()) fn(true);
-
-  // Check only when it is a new user or when email field is modified
-  if (this.isNew || this.isModified('email')) {
-    User.find({ email: email }).exec(function (err, users) {
-      fn(!err && users.length === 0);
-    });
-  } else fn(true);
-}, 'Email already exists');
 
 UserSchema.path('username').validate(function (username) {
   if (this.skipValidation()) return true;

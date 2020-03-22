@@ -31,7 +31,33 @@ var setTags = function (tags) {
  */
 
 var SetupSchema = new Schema({
-  title: {type : String, trim : true, index: { unique: true } },
+  title: {
+    type : String, 
+    trim : true, 
+    index: { unique: true } ,
+    validate:{
+      isAsync: true,
+      validator: function (title, fn) {
+          var Setup = mongoose.model('Setup');
+
+          if (this.isNew || this.isModified('title')) {
+            Setup.find({ title: title }).exec(function (err, setups) {
+              fn(!err && setups.length === 0);
+            });
+          } else fn(true);
+        }, 
+      message: 'Game setup name already exists'
+    },
+    validate:{
+      isAsync: true,
+      validator: function (title, fn) {
+        if (this.isNew || this.isModified('title')) {
+            fn(utils.validateTitle(title));
+        } else fn(true);
+      }, 
+      message: 'Name can only contain letters, numbers, space and underscore.'
+    }
+  },
   description: {type : String },
   isPrivate: {type : Boolean, default : false},
   tags: {type: [], get: getTags, set: setTags},
@@ -48,24 +74,6 @@ var SetupSchema = new Schema({
  */
 
 SetupSchema.path('title').required(true, 'Game setup title cannot be blank');
-
-
-SetupSchema.path('title').validate(function (title, fn) {
-  var Setup = mongoose.model('Setup');
-
-  if (this.isNew || this.isModified('title')) {
-    Setup.find({ title: title }).exec(function (err, setups) {
-      fn(!err && setups.length === 0);
-    });
-  } else fn(true);
-}, 'Game setup name already exists');
-
-
-SetupSchema.path('title').validate(function (title, fn) {
-  if (this.isNew || this.isModified('title')) {
-      fn(utils.validateTitle(title));
-  } else fn(true);
-}, 'Name can only contain letters, numbers, space and underscore.');
 
 
 /**
