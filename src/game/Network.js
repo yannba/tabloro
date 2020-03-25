@@ -160,7 +160,7 @@ Network.setup = function () {
         delete tile.relativePosition;
 
         T.syncTile(tile, newPosition);
-        UI.log(client.name, 'moved a tile', tile.id);
+        console.log(client.name, 'moved a tile', tile.id);
 
     };
 
@@ -173,7 +173,7 @@ Network.setup = function () {
         Controls.hide(tile);
         
         tile.frame = newFrame;
-        UI.log(client.name, 'flipped tile', tile.id);
+        console.log(client.name, 'flipped tile', tile.id);
         
     };
 
@@ -186,7 +186,7 @@ Network.setup = function () {
         Controls.hide(tile);
         tile.visible = false;
         
-        UI.log(client.name, 'took a tile to hand');
+        console.log(client.name, 'took a tile to hand');
     };
 
     Network.client.exports.fromHand = function (client, tileId) {
@@ -206,7 +206,7 @@ Network.setup = function () {
         var tile = G.findTile(tileId);
         T.lock(tile);
         
-        UI.log(client.name, 'locks tile', tile.id);
+        UI.log(client.name, 'locks tile');
     };
 
     Network.client.exports.unlock = function (client, tileId) {
@@ -214,7 +214,7 @@ Network.setup = function () {
         var tile = G.findTile(tileId);
         T.unlock(tile);
         
-        UI.log(client.name, 'unlocks tile', tile.id);
+        UI.log(client.name, 'unlocks tile');
     };
 
 
@@ -223,7 +223,7 @@ Network.setup = function () {
         var tile = G.findTile(tileId);
         T.userOwns(tile, client.name);
         
-        UI.log(client.name, 'owns tile', tile.id);
+        UI.log(client.name, 'owns tile');
     };
 
 
@@ -232,7 +232,7 @@ Network.setup = function () {
         var tile = G.findTile(tileId);
         T.nobodyOwns(tile);
         
-        UI.log(nom, 'released tile', tile.id);
+        UI.log(nom, 'released tile');
     };
 
 
