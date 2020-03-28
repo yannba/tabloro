@@ -194,7 +194,7 @@ function setupAssets (gameAssets) {
             } else if (asset.isStash){
                 addStash(groupName, yOffset, R.head(R.of(asset.counts)) || 1, group);
             } else {
-                addCards(groupName, yOffset, buildAssetArray(asset, maxFrames), group);
+                addCards(groupName, yOffset, buildAssetArray(asset, maxFrames), group, asset.rotateBy);
             }
         }
 
