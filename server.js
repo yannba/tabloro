@@ -7,6 +7,19 @@
 /**
  * Module dependencies
  */
+/*
+ * to direct port 80 and 443 to our ports add these two lines to  /etc/rc.local  for reboot and run directly using sudo for immediate application:
+ * iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 80 -j REDIRECT --to-port 4000
+ * iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 443 -j REDIRECT --to-port 3000
+ */
+
+/*
+ * 
+ * 
+ * Modify node_modules/eurica.io/lib/EurecaServer.js:1203  getUrl(req)  scheme  http  -> https
+ * 
+ * 
+ */
 
 var log = console.log;
 
@@ -19,11 +32,22 @@ var config = require('config');
 var R = require('ramda');
 var EurecaServer = require('eureca.io').EurecaServer;
 
+// Certificate
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/your.server.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/your.server.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/your.server.com/chain.pem', 'utf8');
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca
+};
 
 
 var app = express();
 var port = process.env.PORT || 3000;
-var server = require('http').createServer(app);
+var https_port = 4000;
+var https_server = require('https').createServer(credentials,app);
 
 
 var eurecaServer = new EurecaServer({
@@ -38,7 +62,7 @@ var eurecaServer = new EurecaServer({
 
 log('attach eurecaServer', eurecaServer.version);
 // attach eureca.io to our http server
-eurecaServer.attach(server);
+eurecaServer.attach(https_server);
 
 
 
@@ -69,8 +93,34 @@ require('./config/routes')(app, passport);
 // Eureca Server config
 require('eurecaserver')(eurecaServer);
 
-server.listen(port);
-log('Express app started on port ' + port);
+https_server.listen(https_port);
+log('Express https app started on port ' + https_port);
+
+
+// Secondary http app - redirect to https
+var httpApp = express();
+var httpRouter = express.Router();
+console.log( https_server.address() )
+httpRouter.get('/', function(req, res){
+    var host = req.get('Host');
+    // replace the port in the host
+    //host = host.replace(/:\d+$/, ":"+app.get('port'));
+    // determine the redirect destination
+    var destination =  ['https://', host, req.url].join('');
+    console.log('redirect http to ',destination );
+    return res.redirect(destination);
+});
+httpApp.use('*', httpRouter);
+var httpServer =  require('http').createServer(httpApp);
+httpServer.listen(port);
+
+
+
+
+
+
+
+
 
 /**
  * Expose
