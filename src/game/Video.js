@@ -17,7 +17,7 @@ Video.init = function () {
   console.log('VIDEO init ...');
   
   // avoid cors issue, hack
-  $.get('http://0.peerjs.com:9000', function(){console.log('done')})
+  $.get('https://your.server.com:9000/peerjs', function(){console.log('done')})
 
   $('#video-container').show();
   $('#video-container').draggable();
@@ -76,6 +76,7 @@ Video.newPeerServerConnection = function () {
   var peer = new Peer(Network.myId, {
     key: '8z62zmz8keasjor',
     debug: 1,
+    secure: 1,
     'iceServers': [
       // Pass in optional STUN and TURN server for maximum network compatibility
       { url: 'stun:stun.l.google.com:19302' }
@@ -121,7 +122,8 @@ Video.getMedia = function (cb) {
   }, function (stream) {
     console.log('stream');
     // Set your video displays
-    $('#my-video').prop('src', URL.createObjectURL(stream));
+    //$('#my-video').prop('src', URL.createObjectURL(stream));
+    $('#my-video').prop('srcObject', stream);
     $('#my-video').show();
     window.localStream = stream;
     $('#get-media').hide();
@@ -234,7 +236,9 @@ Video.step3 = function (call) {
   // Wait for stream on the call, then set peer video display
   call.on('stream', function (stream) {
     $('#' + call.peer).find('video').show();
-    $('#' + call.peer).find('video').prop('src', URL.createObjectURL(stream));
+//    $('#' + call.peer).find('video').prop('src', URL.createObjectURL(stream));
+    $('#' + call.peer).find('video').prop('srcObject', stream);
+
   });
 
   call.on('close', function (stream) {

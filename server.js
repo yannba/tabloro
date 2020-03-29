@@ -43,6 +43,8 @@ const credentials = {
   ca: ca
 };
 
+const { ExpressPeerServer } = require('peer');
+
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -116,6 +118,18 @@ httpServer.listen(port);
 
 
 
+//Peer Server = webRTC video connector
+
+//const eServer = app.listen(9000);
+
+const peerServer = ExpressPeerServer(https_server, {
+  port: 9000,
+  path: '/peerjs',
+  key:"8z62zmz8keasjor",
+  allow_discovery: true,
+});
+
+//  ssl:{ key: privateKey, cert: certificate}
 
 
 

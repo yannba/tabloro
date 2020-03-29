@@ -43,7 +43,7 @@ H.update = function () {
   R.mapObj(function (tile) {
     UI.fixedToCamera(false, tile);
     tile.x = offsetX;
-    offsetX += tile.width;
+    offsetX += tile.width/3;
     tile.y = game.camera.height - tile.height / 2;
     S.bringToTop(tile);
     UI.fixedToCamera(true, tile);
