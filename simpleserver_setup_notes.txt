@@ -65,8 +65,9 @@ mkdir public/userdat        # this is instead of AWS for storage. It's only you 
 #src/game/Video.js  aprox line 20
 #server.js    point to your certs.
 
+#run our own peer server:
+ cd node_modules/peer/bin && ./peerjs --port 9000 --key 8z62zmz8keasjor --sslkey /etc/letsencrypt/live/localhost/privkey.pem --sslcert /etc/letsencrypt/live/localhost/cert.pem --allow_discovery &
 
+ # now start Tabloro:
 npm start
 
-
-# note all the deprecation warnings!  You  ( or maybe I ) can fix this later.

@@ -33,9 +33,9 @@ var R = require('ramda');
 var EurecaServer = require('eureca.io').EurecaServer;
 
 // Certificate
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/your.server.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/your.server.com/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/your.server.com/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/localhost/privkey.pem', 'utf8');  //change localhost here to your.server.com ?
+const certificate = fs.readFileSync('/etc/letsencrypt/live/localhost/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/localhost/chain.pem', 'utf8');
 
 const credentials = {
   key: privateKey,
@@ -118,18 +118,18 @@ httpServer.listen(port);
 
 
 
-//Peer Server = webRTC video connector
 
-//const eServer = app.listen(9000);
 
-const peerServer = ExpressPeerServer(https_server, {
-  port: 9000,
-  path: '/peerjs',
-  key:"8z62zmz8keasjor",
-  allow_discovery: true,
-});
+// const peerServer = ExpressPeerServer(https_server, {
+//   port: 9000,
+//   path: '/peerjs',
+//   key:"8z62zmz8keasjor",
+//   allow_discovery: true,
+//   ssl:{ key: privateKey, cert: certificate}
+// });
 
-//  ssl:{ key: privateKey, cert: certificate}
+//  Run a peer server separately:   cd node_modules/peer/bin && ./peerjs --port 9000 --key 8z62zmz8keasjor --sslkey /etc/letsencrypt/live/localhost/privkey.pem --sslcert /etc/letsencrypt/live/localhost/cert.pem --allow_discovery
+
 
 
 

@@ -17,7 +17,7 @@ Video.init = function () {
   console.log('VIDEO init ...');
   
   // avoid cors issue, hack
-  $.get('https://your.server.com:9000/peerjs', function(){console.log('done')})
+  $.get('https://localhost:9000/peerjs', function(){console.log('done')})  //change localhost here to your.server.com
 
   $('#video-container').show();
   $('#video-container').draggable();
@@ -75,6 +75,7 @@ Video.newPeerServerConnection = function () {
   console.log('Video.newPeerServerConnection');
   var peer = new Peer(Network.myId, {
     key: '8z62zmz8keasjor',
+    port: 9000,
     debug: 1,
     secure: 1,
     'iceServers': [
