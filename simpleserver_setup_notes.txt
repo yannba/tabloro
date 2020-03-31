@@ -56,6 +56,16 @@ cd ../..
 
 mkdir public/userdat        # this is instead of AWS for storage. It's only you and a few friends right?
 
+##HTTPS:
+#Go to letsencrypt and get certificates to enable https ( or get self signed for local testing ).
+#I followed this: 
+#https://itnext.io/node-express-letsencrypt-generate-a-free-ssl-certificate-and-run-an-https-server-in-5-minutes-a730fbe528ca?gi=34264a04e483
+
+##Change source code from your.server.com to your domain:
+#src/game/Video.js  aprox line 20
+#server.js    point to your certs.
+
+
 npm start
 
 
