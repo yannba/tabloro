@@ -71,7 +71,13 @@ function create() {
 
 
 function zoom (mult) {
-    game.camera.scale.set(game.camera.scale.x + mult / 100);
+  
+    var new_scale = game.camera.scale.x + mult / 100;
+
+    new_scale = Math.min( new_scale, 3);
+    new_scale = Math.max( new_scale, 1/3);
+
+    game.camera.scale.set(new_scale);
     // var step;
     // if (navigator.userAgent.match(/Firefox/)){
     //     step = 0.02;

@@ -42,7 +42,7 @@ Touch.init = function () {
         if (Controls.target.input.isDragged) {
             return;
         }
-        UI.hudMessage('pan', ev.deltaX, ev.deltaY, ev.pointers.length);
+        console.log('pan', ev.deltaX, ev.deltaY, ev.pointers.length);
         game.camera.x = Touch.oldCameraX - ev.deltaX;
         game.camera.y = Touch.oldCameraY - ev.deltaY;
     });
@@ -50,20 +50,20 @@ Touch.init = function () {
     // Touch.hammertime.on('pinch', function(ev) {
     // });
     
-    Touch.hammertime.on('pinchin', function() {
+    Touch.hammertime.on('pinchin', function(ev) {
         if (Controls.target.input.isDragged) {
             return;
         }
         zoom(-0.6);
-        UI.hudMessage('pinchin', ev.deltaX, ev.deltaY, ev.pointers.length);
+        console.log('pinchin', ev.deltaX, ev.deltaY, ev.pointers.length);
     });
 
-    Touch.hammertime.on('pinchout', function() {
+    Touch.hammertime.on('pinchout', function(ev) {
         if (Controls.target.input.isDragged) {
             return;
         }
         zoom(0.6);
-        UI.hudMessage('pinchout', ev.deltaX, ev.deltaY, ev.pointers.length);
+        console.log('pinchout', ev.deltaX, ev.deltaY, ev.pointers.length);
     });
 
 }
