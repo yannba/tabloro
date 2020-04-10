@@ -220,6 +220,7 @@ T.startRotate = function () {
      tile.startRotation = tile.rotation;
      // console.log('startRotatePosition', tile.startRotatePosition);
      G.addUpdatePosition(tile);
+     
 };    
 
 
@@ -234,13 +235,19 @@ T.releaseRotate = function () {
     } else {
         // console.error('not enough', deltaRotation, tile.rotation, tile.startRotation);
     }
-
+    
+    R.forEach(T.setRotate(tile.rotation))(Controls.getSelected(tile));
+    
     delete tile.startRotatePosition;
     delete tile.startRotation;
     G.removeRotationPosition(tile.id);
 
-    Network.server.tilesDragStop(T.getSelectedIds(tile), T.getPositions(tile));
+    R.forEach( function(tile){
+                  Network.server.tilesDragStop(T.getSelectedIds(tile), T.getPositions(tile));
+                } )(Controls.getSelected(tile));
 
+        
+        
     // game.add.tween(tile).to({
     //     rotation: '+' + rotation
     // }, 50, Phaser.Easing.Linear.None, true, 0, false);
@@ -384,6 +391,15 @@ T.flip = function (tile) {
         tile.frame = tile.defaultFrame;
     }
 };
+
+
+T.setRotate = R.curry(function (rotateAbs, tile) {
+    if (!tile.rotateable) {
+        return;
+    }
+    console.log('T.setRotate', tile.id, rotateAbs);
+    tile.rotation = rotateAbs;
+});
 
 
 T.show = function (tile) {

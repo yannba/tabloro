@@ -80,15 +80,15 @@ Controls.show = function (tile) {
     Controls.controls.visible = true;
     // single tile
     Controls.position(Controls.flipControls, tile.flipable);
-    Controls.position(Controls.rotationControls, tile.rotateable && !Controls.selected.length);
-    Controls.position(Controls.handControls, tile.handable && !Controls.selected.length);
-    Controls.position(Controls.userControls, tile.isStash && !Controls.selected.length);
+    Controls.position(Controls.handControls, tile.handable && Controls.selected.length <= 1);
+    Controls.position(Controls.userControls, tile.isStash && Controls.selected.length <= 1);
     console.log('lockable check');
-    Controls.position(Controls.lockControls, tile.lockable && !Controls.selected.length);
+    Controls.position(Controls.lockControls, tile.lockable && Controls.selected.length <= 1);
     Controls.colorize(tile);
     // multi selection
-    Controls.position(Controls.stackControls, Controls.selected.length && !tile.isDice);
-    Controls.position(Controls.shuffleControls, Controls.selected.length && !tile.isDice);
+    Controls.position(Controls.stackControls, Controls.selected.length > 1 && !tile.isDice);
+    Controls.position(Controls.shuffleControls, Controls.selected.length > 1 && !tile.isDice);
+    Controls.position(Controls.rotationControls, tile.rotateable );
 };
 
 Controls.position = function (controlButton, condition) {
