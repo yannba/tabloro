@@ -137,10 +137,10 @@ var Utils = {
         };
     },
 
-    aboveCorner: R.curry(function (b, a) {
+    aboveCorner: R.curry(function (a, b) {
         if (a && b) {
             a.x = b.x - b.width / 2;
-            a.y = b.y - b.height / 2 - a.height;
+            a.y = b.y - b.height / 2 - a.height/2;
         }
         return a;
     }),

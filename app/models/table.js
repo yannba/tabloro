@@ -67,7 +67,7 @@ var TableSchema = new Schema({
   isPrivate: {type : Boolean, default : false},
   rtcVideo: {type : Boolean, default : true},
   rtcAudio: {type : Boolean, default : true},
-  users: [{type : Schema.ObjectId, ref : 'User', unique: true}],
+  users: [{type : Schema.ObjectId, ref : 'User'}],
   tags: {type: [], get: getTags, set: setTags},
   createdAt  : {type : Date, default : Date.now},
   tiles: {type: Object, default: {}},

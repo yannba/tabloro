@@ -63,7 +63,7 @@ Controls.assignRelativePositions = function (target) {
 
 Controls.at = function (tile) {
     Controls.show(tile);
-    Utils.toCorner(Controls.controls, tile);
+    Utils.aboveCorner(Controls.controls, tile);
 };
 
 Controls.colorize = function (tile) {
