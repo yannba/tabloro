@@ -1,7 +1,7 @@
 
 #  <a href="http://www.tabloro.com/" target="_blank" class="tabloro" >Tabloro.com</a>
 
-Your own game table in the browser. Play <strong>any</strong> board or card game with friends & family.
+Your very own game table in the browser. Play <strong>any</strong> board or card game with friends & family.
 
 Tabloro runs on your mac, pc, tablet, or smartphone. Every game session is saved online. Every move can be replayed or rewinded any time. ( TODO )
 
