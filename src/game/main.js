@@ -258,6 +258,10 @@ function addCards(title, yOffset, array, group, rotateBy) {
 
         var tile = group.create(offsetX, yOffset + tempOffsetY + nOffsetY, title, n);
         tile.defaultFrame = n;
+        var width = tile.width;
+        var scale = 100 / width;
+        tile.scale.x = scale;
+        tile.scale.y = scale;
         R.compose(T.setId, Cursor.reset, T.networkAble, T.lockable(group.lockable), T.stackable, T.flipable(group.flipable), T.rotateable(rotateBy), T.handable(group.handable),  T.draggable, T.centerAnchor)(tile);
 
         Controls.target = tile;
