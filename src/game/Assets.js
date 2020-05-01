@@ -14,6 +14,7 @@ Assets.preload = function (game) {
 
     // game.load.image('save', '/assets/save.png');
     game.load.image('flip', '/assets/flip.png');
+    game.load.image('zoom', '/assets/zoom.png');
     game.load.image('stack', '/assets/load.png');
     game.load.image('shuffle', '/assets/shuffle.png');
     game.load.image('hand', '/assets/hand.png');

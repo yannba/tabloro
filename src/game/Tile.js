@@ -194,6 +194,19 @@ T.setId = function (tile) {
     return tile;
 };
 
+T.setScale = function (tile) {
+    var width = tile.width;
+    if (width === 100) {
+        tile.scalably = false;
+        return;
+    }
+    var scale = 100 / width;
+    tile.scalably = true;
+
+    tile.__scale = 1;
+    tile.scale.x = tile.scale.y = scale;
+    return tile;
+};
 
 /****** ROTATE ***************************************************************************************/
 
@@ -279,6 +292,18 @@ T.onFlip = function () {
     R.forEach(T.flip)(Controls.getSelected(tile));
 };
 
+T.onZoom = function () {
+    var tile = Controls.target;
+    console.log('onZoom');
+
+    var toScale = tile.__scale;
+    tile.__scale = tile.scale.x;
+    tile.scale.x = tile.scale.y = toScale;
+
+    Controls.hide(tile);
+    return tile;
+}
+
 T.nextFlipStates = function (tile) {
     return R.map(function (t) {
         if (t.frame === t.defaultFrame) {
@@ -291,6 +316,10 @@ T.nextFlipStates = function (tile) {
 T.onTake = function () {
     console.log('onTake');
     var tile = Controls.target;
+    if (tile.scale.x === 1) {
+        T.onZoom();
+    }
+
     H.add(tile);
     Network.server.toHand(tile.id);
 };

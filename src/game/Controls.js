@@ -19,6 +19,7 @@ Controls.add = function () {
     
     Controls.rotationControls = Controls.make(Controls.controls, 'rotate', T.releaseRotate, T.startRotate);
     Controls.flipControls = Controls.make(Controls.controls, 'flip', T.onFlip);
+    Controls.zoom = Controls.make(Controls.controls, 'zoom', T.onZoom);
     Controls.stackControls = Controls.make(Controls.controls, 'stack', S.onTidy);
     Controls.shuffleControls = Controls.make(Controls.controls, 'shuffle', S.onShuffle);
     Controls.handControls = Controls.make(Controls.controls, 'hand', T.onTake);
@@ -80,6 +81,7 @@ Controls.show = function (tile) {
     Controls.controls.visible = true;
     // single tile
     Controls.position(Controls.flipControls, tile.flipable);
+    Controls.position(Controls.zoom, tile.scalably);
     Controls.position(Controls.handControls, tile.handable && Controls.selected.length <= 1);
     Controls.position(Controls.userControls, tile.isStash && Controls.selected.length <= 1);
     console.log('lockable check');
